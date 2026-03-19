@@ -1,41 +1,31 @@
 #!/bin/bash
-
-# colours
 red='\033[1;31m'
 green='\033[1;32m'
 yellow='\033[1;33m'
 blue='\033[1;36m'
 nc='\033[0m'
-
 while true; do
     user="$(whoami)"
     uptime="$(uptime -p)"
     ip="$(hostname -I | awk '{print $1}')"
     cpu="$(top -bn1 | grep 'Cpu(s)' | awk '{print $2}')"
-
     ram_total_Gi="$(free -h --giga | awk 'NR==2 {print $2}')"
     ram_used_Gi="$(free -h --giga | awk 'NR==2 {print $3}')"
     ram_total_cal="$(free -m | awk 'NR==2 {print $2}')"
     ram_used_cal="$(free -m | awk 'NR==2 {print $3}')"
     ram_percentage="$(( (ram_used_cal * 100) / ram_total_cal ))%"
-
     disk_total="$(df -h / | awk 'NR==2 {print $2}')"
     disk_used="$(df -h / | awk 'NR==2 {print $3}')"
     disk_percentage="$(df -h / | awk 'NR==2 {print $5}')"
-
-    # strip to integers for bars
     cpu_int=${cpu%.*}
-    ram_int=${ram_percentage%\%}     # strip % not .
-    disk_int=${disk_percentage%\%}   # strip % not .
-
-    # build bars
+    ram_int=${ram_percentage%\%}
+    disk_int=${disk_percentage%\%}
     bar_cpu="" bar_ram="" bar_disk=""
     for i in $(seq 1 20); do
         if [[ $((i * 5)) -le $cpu_int ]];  then bar_cpu="${bar_cpu}█";  else bar_cpu="${bar_cpu}░";   fi
         if [[ $((i * 5)) -le $ram_int ]];  then bar_ram="${bar_ram}█";  else bar_ram="${bar_ram}░";   fi
         if [[ $((i * 5)) -le $disk_int ]]; then bar_disk="${bar_disk}█"; else bar_disk="${bar_disk}░"; fi
     done
-
     clear
     echo -e "${blue}=============================="
     echo -e "       SYSTEM DASHBOARD       "
@@ -54,3 +44,5 @@ while true; do
     echo -e "${blue}       refreshing every 1s | ctrl+c to exit${nc}"
     sleep 1
 done
+
+# By me Hehehehehehee
