@@ -123,6 +123,8 @@ echo -en $green
 read -p ": " again
 if [[ $again = "y" || $again = "Y" ]]; then
 	bash "$0"
+else
+	echo ""
+	echo THANKS FOR PLAYING!!!
 fi
-echo ""
-echo THANKS FOR PLAYING!!!
+
